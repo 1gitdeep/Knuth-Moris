@@ -1,0 +1,33 @@
+def KMP(X, Y):
+# base case 1: `Y` is None or empty
+if Y is None or not Y:
+print(&quot;The pattern occurs with shift
+0&quot;) return
+# base case 2: `X` is None, or X&#39;s length is less than that of Y&#39;s
+if X is None or len(Y) &gt; len(X):
+print(&quot;Pattern not found&quot;)
+return
+chars = list(Y)
+# `next[i]` stores the index of the next best partial match
+next = [0] * (len(Y) + 1)
+for i in range(1, len(Y)):
+j = next[i + 1]
+while j &gt; 0 and chars[j] is not chars[i]:
+j = next[j]
+if j &gt; 0 or chars[j] == chars[i]:
+next[i + 1] = j + 1
+j = 0
+for i in range(len(X)):
+if j &lt; len(Y) and X[i] == Y[j]:
+j = j + 1
+if j == len(Y):
+print(&quot;Pattern occurs with shift&quot;, (i - j + 1))
+elif j &gt; 0:
+j = next[j]
+i = i - 1 # since `i` will be incremented in the next iteration
+
+# Program to implement the KMP algorithm in Python
+if __name__ == &#39;__main__&#39;:
+text = &quot;ABCABAABCABAC&quot;
+pattern = &quot;CAB&quot;
+KMP(text, pattern)
